@@ -1,1 +1,1 @@
-console.log("我的webpack开始了")
+import "./index.css"

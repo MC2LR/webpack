@@ -24,5 +24,18 @@ module.exports = {
             },
             hash: true, //生成哈希戳
         })
-    ]
+    ],
+    module: {
+        rules: [
+            // css-loader  主要处理@import 引入的css样式
+            // style-loader  将css插入到head标签中
+            // 如果是单个loader 可以用字符串  如果用多个loader则需要用到数组
+            //    并且顺序是从后往前，在这里就是先解析css  然后插入到header中
+            //   同时loader 也可以写成对象  这样可以进行传参数
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            }
+        ]
+    }
 }
