@@ -3,7 +3,11 @@ let HtmlWebpackPlugin = require("html-webpack-plugin");
 let MiniCssExtractPlugin = require("mini-css-extract-plugin") //抽离css插件
 let OptimizeCss = require("optimize-css-assets-webpack-plugin") //压缩css
 let UglifyJs = require("uglifyjs-webpack-plugin")
-
+function a(){
+    console.log(process.argv)
+    console.log("这是我的参数===============================================================================================")
+}
+a()
 module.exports = {
     optimization: {
         //优化项  用到了optimicss。。。 那个插件
@@ -17,10 +21,10 @@ module.exports = {
         ]
 
     },
-    mode: "production",
+    mode: "development",
     entry: "./src/index.js", //开始打包的文件夹
     output: {
-        filename: "bundle.js",
+        filename: "[name].bundle.js",
         path: path.resolve(__dirname, "dist")
     },
     // webpack本地服务器配置
@@ -62,15 +66,7 @@ module.exports = {
                     MiniCssExtractPlugin.loader, //此步骤就是代替style-loader,不是插到header标签
                     // 是将抽离出来的css样式以link的形式引入到html 内
                     'css-loader',
-                    // "postcss-loader"
-                    // {
-                    //     loader: 'postcss-loader',
-                    //     options: {
-                    //         plugins: [
-                    //             require('autoprefixer') //postcss-loader会叫autoprefixer插件添加浏览器前缀
-                    //         ]
-                    //     }
-                    // }
+                    "postcss-loader"
                 ]
             },
             {
@@ -79,8 +75,19 @@ module.exports = {
                     // "style-loader"
                     MiniCssExtractPlugin.loader,
                     "css-loader",
+                    "postcss-loader",
                     "less-loader",
                 ]
+            },
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/, //排除这些
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['es2015'] //因为安装的是babel-preset-es2015，所以这里要匹配这个
+                    }
+                }
             }
         ]
     }
